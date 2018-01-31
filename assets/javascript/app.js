@@ -126,7 +126,7 @@ $(document).ready(function() {
 		$("#answers").empty();
 		$("#question").html("<h2>Out of Time!</h2>");
 		$("#question").append("<div> The correct answer was: " + questionsArr[count].correctAnswer + "</div");
-		$("#question").append("<img src='" + questionsArr[count].correctImage + "'>");
+		$("#question").append("<img src='" + questionsArr[count].correctImage + "' width='600' height='400'>");
 		clearInterval(questionInt);
 		unansweredCount++;
 		count++;
