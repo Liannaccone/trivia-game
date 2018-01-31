@@ -11,24 +11,24 @@ $(document).ready(function() {
 		// question 1; index[0]
 		{
 			question: "do you like cats",
-			possibleAnswers: ["yes", "maybe", "no", "absolutely not"],
-			correctAnswer: "absolutely not",
+			possibleAnswers: ["wrong", "wrong", "answer1", "wrong"],
+			correctAnswer: "answer1",
 			correctImage: "http://via.placeholder.com/200x200",
 		},
 
 		// question 2; index[1]
 		{
 			question: "do you like dogs?",
-			possibleAnswers: ["yes", "maybe", "no", "absolutely not"],
-			correctAnswer: "yes",
+			possibleAnswers: ["answer2", "dog", "dog2", "dog3"],
+			correctAnswer: "answer2",
 			correctImage: "http://via.placeholder.com/200x200",
 		},
 
 		// question 3; index[2]
 		{
 			question: "do you like turtles",
-			possibleAnswers: ["no","yes","maybe","monkey"],	
-			correctAnswer: "monkey",
+			possibleAnswers: ["turtle1","answer3","turtle2","turtle4"],	
+			correctAnswer: "answer3",
 			correctImage: "http://via.placeholder.com/200x200",
 		}
 
@@ -44,7 +44,7 @@ $(document).ready(function() {
 	var questionInt;
 
 	// setting question start equal to 10 (seconds)
-	var questionStart = 11
+	var number = 10
 
 
 	//  variables to keep track of use responses
@@ -62,19 +62,97 @@ $(document).ready(function() {
 //  FUNCTIONS
 //  ====================
 
-	
+	function showGameOver () {
+		$("#game").empty();
+	}
+
+	function timerReset() {
+		number = 10
+	}
+
+	function stop() {
+		clearInterval(questionInt);
+		unansweredCount++;
+		count++;
+		timerReset();
+		//  if no more qwuestions left, show end screen
+		if (count === questionsArr.length) {
+			showGameOver()
+		}
+		// else show next question
+		else {
+			showQuestion();
+		}
+
+	}
 
 
 
 	// populates fields with the first question
+	function decrement() {
+		number--
+		$("#timer").html("<span>" + number + " seconds remaining</span>");
+		if (number == 0) {
+				stop();
+			}
+
+		}
+
+
 	function showQuestion() {
+		questionInt = setInterval(decrement, 1000)
+
+
+
+
+
+
+
+
+		$("#answers").empty();		
 		$("#response").empty();
-	// for (var i = 0; i < questionsArr.length; i++) {
 		$("#question").html(questionsArr[count].question)
 		for (var i = 0; i < questionsArr[count].possibleAnswers.length; i++) {
-			$("#answers").append("<div><button data-name='"+ questionsArr[count].possibleAnswers[i]+"'>" + questionsArr[count].possibleAnswers[i] + "</button></div>");
+			$("#answers").append("<div><button class='option-button' data-name='"+ questionsArr[count].possibleAnswers[i]+"'>" + questionsArr[count].possibleAnswers[i] + "</button></div>");
 		};
+	
+
+
+
+	// function startGame() {
+
+		// showQuestion();
+
+		$(".option-button").on("click",function(){
+			$(".option-button").off("click");
+			userAnswer = $(this).attr("data-name");
+			console.log(userAnswer);
+				if (userAnswer === questionsArr[count].correctAnswer) {
+					correctCount++;
+					count++;
+					console.log(correctCount);
+					showQuestion();
+					
+				}
+				else  {
+					incorrectCount++;
+					count++;
+					console.log(incorrectCount);
+					showQuestion();
+
+				}
+	
+		});
+
 	};
+	// };
+
+		$("#startButton").on("click",function() {
+			$(this).hide();
+			showQuestion();
+		// startTimer();
+
+	});
 
 
 
@@ -109,35 +187,31 @@ $(document).ready(function() {
 	// 	setTimeout(showQuestion(), 1000 * 3);
 	// }
 
-	function startTimer() {
-		clearInterval(questionInt)
-		questionInt = setInterval(decrement, 1000)
-	}
 
-	function decrement() {
-		// decrease the questionStartby one
-		questionStart--;
+	// function decrement() {
+	// 	// decrease the questionStartby one
+	// 	questionStart--;
 
-		// show the number in the #timer tag
-		$("#timeLeft").html("Time Remaining: " + questionStart);
+	// 	// show the number in the #timer tag
+	// 	$("#timeLeft").html("Time Remaining: " + questionStart);
 
-		// once the questionStart hits zero...
-		if(questionStart === 0 ) {
+	// 	// once the questionStart hits zero...
+	// 	if(questionStart === 0 ) {
 
-			// run the stop function
-			stop();
+	// 		// run the stop function
+	// 		stop();
 
-			// replace the #game div showing the user's score
-			$("#game").html("<h2> All done, here's how you did:</h2><div>Correct Answers: " + correctCount + "</div><div> Incorrect Answers: " + incorrectCount + "</div><div>Unanswered: " + unansweredCount + "</div>")
+	// 		// replace the #game div showing the user's score
+	// 		$("#game").html("<h2> All done, here's how you did:</h2><div>Correct Answers: " + correctCount + "</div><div> Incorrect Answers: " + incorrectCount + "</div><div>Unanswered: " + unansweredCount + "</div>")
 
 
-		}
-	}
+	// 	}
+	// }
 
-	// timer stop function
-	function stop() {
-		clearInterval(questionStart);
-	}
+	// // timer stop function
+	// function stop() {
+	// 	clearInterval(questionStart);
+	// }
 
 
 // Main Process
@@ -146,12 +220,9 @@ $(document).ready(function() {
 
 // on user click of start button, remove start button and show question
 
-	$("#startButton").on("click",function(event) {
-		$(this).remove();
-		showQuestion();
-		startTimer();
 
-	});
+
+
 
 	// // for (var i = 0; i <= 0 ; i++) {
 	
