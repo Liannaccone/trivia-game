@@ -62,29 +62,48 @@ $(document).ready(function() {
 //  FUNCTIONS
 //  ====================
 
-	function showGameOver () {
-		$("#game").empty();
+	function restartGame() {
+		correctCount = 0;
+		incorrectCount = 0;
+		unansweredCount = 0;
+		number = 10;
+		count = 0;
+		userAnswer = "";
+		showQuestion();
+		
 	}
 
-	function timerReset() {
+	function showGameOver () {
+		$("#timer").empty();
+		$("#answers").empty();
+		$("#response").empty();
+		$("#question").html("<h2>All done, here's how you did:</div>")
+		$("#question").append("<div> Correct Answers: " + correctCount + "</div><div>Incorrect Answers: " + incorrectCount + "</div><div>Unanswered: " + unansweredCount + "</div>")
+		$("#question").append("<button class='restart-button'><strong>Start Over?</strong></button>")
+		$(".restart-button").on("click", function(){
+			restartGame();
+		});
+	}
+
+	function timerRestart() {
 		number = 10
+		$("#timer").html("<span>" + number + " seconds remaining</span>");
+		questionInt = setInterval(decrement, 1000)
 	}
 
 	function stop() {
 		clearInterval(questionInt);
 		unansweredCount++;
 		count++;
-		timerReset();
-		//  if no more qwuestions left, show end screen
+		//  if no more questions left, show end screen
 		if (count === questionsArr.length) {
 			showGameOver()
 		}
 		// else show next question
 		else {
 			showQuestion();
-		}
-
-	}
+		};
+	};
 
 
 
@@ -100,15 +119,7 @@ $(document).ready(function() {
 
 
 	function showQuestion() {
-		questionInt = setInterval(decrement, 1000)
-
-
-
-
-
-
-
-
+		timerRestart();
 		$("#answers").empty();		
 		$("#response").empty();
 		$("#question").html(questionsArr[count].question)
@@ -117,128 +128,47 @@ $(document).ready(function() {
 		};
 	
 
-
-
-	// function startGame() {
-
-		// showQuestion();
-
 		$(".option-button").on("click",function(){
-			$(".option-button").off("click");
 			userAnswer = $(this).attr("data-name");
-			console.log(userAnswer);
 				if (userAnswer === questionsArr[count].correctAnswer) {
 					correctCount++;
 					count++;
-					console.log(correctCount);
-					showQuestion();
+					clearInterval(questionInt);
+					if(count === questionsArr.length) {
+						showGameOver()
+					};
+					if (count < questionsArr.length) {
+						showQuestion();
+					};
+					
 					
 				}
+
 				else  {
 					incorrectCount++;
 					count++;
-					console.log(incorrectCount);
-					showQuestion();
-
+					clearInterval(questionInt);
+					if(count === questionsArr.length) {
+						showGameOver()
+					};
+					if(count < questionsArr.length) {
+						showQuestion();
+					};
 				}
-	
 		});
-
 	};
-	// };
+
+
+
 
 		$("#startButton").on("click",function() {
 			$(this).hide();
 			showQuestion();
-		// startTimer();
 
-	});
-
+		});
 
 
 
-	// };
-
-
-	// // if user answers correct, increments counts and populates next question
-	// function rightAnswer() {
-	// 	$("#response").append("<div>Correct!</div><div><img src=" + questionArr[count].correctImage + "></div>");
-	//  	correctCount++;
-	//  	count++;
-	//  	setTimeout(showQuestion(), 1000 * 3);
-	//  };
-
-	// // if use answer is wrong, increments counts and populates next question
-	// function wrongAnswer() {
-	// 	$("#question").empty();
-	// 	$("#answers").empty();
-	// 	$("#response").append("<div>Wrong!</div><div>The correct answer is " + questionsArr[count].correctAnswer + "</div><div><img src=" + questionsArr[count].correctImage + "></div>");
-	// 	wrongCount++;
-	// 	count++;
-	// 	setTimeout(showQuestion(), 1000 * 3);
-	// }
-
-	// if timer runs out before user answers, increments counts and populates next question
-	// function noAnswer() {
-	// 	unansweredCount++;
-	// 	count++;
-	// 	$("#questions").empty();
-	// 	$("#answers").empty();
-	// 	setTimeout(showQuestion(), 1000 * 3);
-	// }
-
-
-	// function decrement() {
-	// 	// decrease the questionStartby one
-	// 	questionStart--;
-
-	// 	// show the number in the #timer tag
-	// 	$("#timeLeft").html("Time Remaining: " + questionStart);
-
-	// 	// once the questionStart hits zero...
-	// 	if(questionStart === 0 ) {
-
-	// 		// run the stop function
-	// 		stop();
-
-	// 		// replace the #game div showing the user's score
-	// 		$("#game").html("<h2> All done, here's how you did:</h2><div>Correct Answers: " + correctCount + "</div><div> Incorrect Answers: " + incorrectCount + "</div><div>Unanswered: " + unansweredCount + "</div>")
-
-
-	// 	}
-	// }
-
-	// // timer stop function
-	// function stop() {
-	// 	clearInterval(questionStart);
-	// }
-
-
-// Main Process
-// ======================
-
-
-// on user click of start button, remove start button and show question
-
-
-
-
-
-	// // for (var i = 0; i <= 0 ; i++) {
-	
-	// 	$("#answers").on("click",function(event){
-	// 		userAnswer = $(this)
-	// 			if(userAnswer == questionsArr[count].correctAnswer) {
-	// 				rightAnswer();
-	// 			}
-	// 			if (userAnswer !== questionsArr[count].correctAnswer) {
-	// 				wrongAnswer();
-	// 			}	
-
-
-
-	// 	});
-	// };
 
 
 
