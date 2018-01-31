@@ -62,6 +62,37 @@ $(document).ready(function() {
 //  FUNCTIONS
 //  ====================
 
+	function correctResponse() {
+		$("#answers").empty();
+		$("#question").html("<h2>Correct!</h2>");
+		$("#question").append("<img src='"+ questionsArr[count].correctImage + "'>");
+		correctCount++;
+		count++;
+		clearInterval(questionInt);
+		if(count === questionsArr.length) {
+			setTimeout(showGameOver,3000);
+		};
+		if (count < questionsArr.length) {
+			setTimeout(showQuestion,3000);
+		};
+	}
+
+	function incorrectResponse() {
+		$("#answers").empty();
+		$("#question").html("<h2>Incorrect</h2>");
+		$("#question").append("<div> The correct answer was: " + questionsArr[count].correctAnswer + "</div");
+		$("#question").append("<img src='" + questionsArr[count].correctImage + "'>");
+		incorrectCount++;
+		count++;
+		clearInterval(questionInt);
+		if(count === questionsArr.length) {
+			setTimeout(showGameOver,3000);
+		};
+		if(count < questionsArr.length) {
+			setTimeout(showQuestion,3000);
+		};
+	}
+
 	function restartGame() {
 		correctCount = 0;
 		incorrectCount = 0;
@@ -92,16 +123,20 @@ $(document).ready(function() {
 	}
 
 	function stop() {
+		$("#answers").empty();
+		$("#question").html("<h2>Out of Time!</h2>");
+		$("#question").append("<div> The correct answer was: " + questionsArr[count].correctAnswer + "</div");
+		$("#question").append("<img src='" + questionsArr[count].correctImage + "'>");
 		clearInterval(questionInt);
 		unansweredCount++;
 		count++;
 		//  if no more questions left, show end screen
 		if (count === questionsArr.length) {
-			showGameOver()
+			setTimeout(showGameOver, 3000);
 		}
 		// else show next question
 		else {
-			showQuestion();
+			setTimeout(showQuestion, 3000);
 		};
 	};
 
@@ -131,29 +166,11 @@ $(document).ready(function() {
 		$(".option-button").on("click",function(){
 			userAnswer = $(this).attr("data-name");
 				if (userAnswer === questionsArr[count].correctAnswer) {
-					correctCount++;
-					count++;
-					clearInterval(questionInt);
-					if(count === questionsArr.length) {
-						showGameOver()
-					};
-					if (count < questionsArr.length) {
-						showQuestion();
-					};
-					
-					
+					correctResponse()	
 				}
 
 				else  {
-					incorrectCount++;
-					count++;
-					clearInterval(questionInt);
-					if(count === questionsArr.length) {
-						showGameOver()
-					};
-					if(count < questionsArr.length) {
-						showQuestion();
-					};
+					incorrectResponse();
 				}
 		});
 	};
