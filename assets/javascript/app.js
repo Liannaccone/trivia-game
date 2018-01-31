@@ -10,26 +10,26 @@ $(document).ready(function() {
 		
 		// question 1; index[0]
 		{
-			question: "do you like cats",
-			possibleAnswers: ["wrong", "wrong", "answer1", "wrong"],
-			correctAnswer: "answer1",
-			correctImage: "http://via.placeholder.com/200x200",
+			question: "Which of these is not a duck?",
+			possibleAnswers: ["green-winged teal", "drake", "coot", "wigeon"],
+			correctAnswer: "coot",
+			correctImage: "http://www.nzbirdsonline.org.nz/sites/all/files/1200333Adult%20coot%20Hamilton%202012.jpg",
 		},
 
 		// question 2; index[1]
 		{
-			question: "do you like dogs?",
-			possibleAnswers: ["answer2", "dog", "dog2", "dog3"],
-			correctAnswer: "answer2",
-			correctImage: "http://via.placeholder.com/200x200",
+			question: "Which of these ducks is known for its distintive tail and rolling whistle?",
+			possibleAnswers: ["wigeon", "shoveler", "pintail", "gadwall"],
+			correctAnswer: "pintail",
+			correctImage: "https://www.allaboutbirds.org/guide/PHOTO/LARGE/pintail_crotty2.jpg",
 		},
 
 		// question 3; index[2]
 		{
-			question: "do you like turtles",
-			possibleAnswers: ["turtle1","answer3","turtle2","turtle4"],	
-			correctAnswer: "answer3",
-			correctImage: "http://via.placeholder.com/200x200",
+			question: "What distinguishes mallard drakes?",
+			possibleAnswers: ["purple bills","green heads","being smaller than mallard hens","red tail feathers"],	
+			correctAnswer: "green heads",
+			correctImage: "http://www.grahamowengallery.com/forum/duck-3.jpg",
 		}
 
 	] //closing out questionsArr
@@ -65,7 +65,7 @@ $(document).ready(function() {
 	function correctResponse() {
 		$("#answers").empty();
 		$("#question").html("<h2>Correct!</h2>");
-		$("#question").append("<img src='"+ questionsArr[count].correctImage + "'>");
+		$("#question").append("<img src='"+ questionsArr[count].correctImage + "' width='600' height='400'>");
 		correctCount++;
 		count++;
 		clearInterval(questionInt);
@@ -81,7 +81,7 @@ $(document).ready(function() {
 		$("#answers").empty();
 		$("#question").html("<h2>Incorrect</h2>");
 		$("#question").append("<div> The correct answer was: " + questionsArr[count].correctAnswer + "</div");
-		$("#question").append("<img src='" + questionsArr[count].correctImage + "'>");
+		$("#question").append("<img src='" + questionsArr[count].correctImage + "' width='600' height='400'>");
 		incorrectCount++;
 		count++;
 		clearInterval(questionInt);
